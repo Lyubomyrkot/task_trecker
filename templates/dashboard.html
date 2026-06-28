@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+
+    <div class="d-flex gap-3">
+        <div class="card" style="width: 12rem;">
+            <div class="card-body m-1">
+                <h1 class="card-title" style="color:#6C63FF;">12</h1>
+                <p class="card-text">Total Tasks</p>
+            </div>
+        </div>
+
+        <div class="card" style="width: 12rem;">
+            <div class="card-body m-1">
+                <h1 class="card-title" style="color:#ffaa00;">12</h1>
+                <p class="card-text">In Progress</p>
+            </div>
+        </div>
+
+        <div class="card" style="width: 12rem;">
+            <div class="card-body m-1">
+                <h1 class="card-title" style="color:#00c853;">12</h1>
+                <p class="card-text">Completed</p>
+            </div>
+        </div>
+
+        <div class="card" style="width: 12rem;">
+            <div class="card-body m-1">
+                <h1 class="card-title" style="color:#ff1744;">12</h1>
+                <p class="card-text">Overdue</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
