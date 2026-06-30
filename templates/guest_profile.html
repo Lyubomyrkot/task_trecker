@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="card shadow-sm border-0 mx-auto text-center" style="max-width:450px;">
+        <div class="card-body p-5">
+            <h2 class="fw-bold mb-3">Welcome!</h2>
+            <p class="text-muted mb-4">
+                Sign in or create an account to manage your tasks.
+            </p>
+            <div class="d-flex gap-2">
+                <a href="{% url 'login' %}" class="btn btn-outline-dark flex-fill">
+                    Login
+                </a>
+                <a href="{% url 'register' %}"
+                   class="btn text-white flex-fill"
+                   style="background:#6C63FF;">
+                    Register
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

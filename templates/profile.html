@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+    <h2 class="fw-bold mb-4">Profile</h2>
+    <div class="card shadow-sm border-0" style="max-width: 500px;">
+        <div class="card-body p-4">
+            <div class="text-center mb-4">
+                <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=6C63FF&color=ffffff&size=128"
+                     class="rounded-circle shadow-sm"
+                     width="120"
+                     height="120"
+                     alt="Avatar">
+            </div>
+            <div class="mb-4">
+                <label class="text-muted small">Username</label>
+                <h5>{{ user.username }}</h5>
+            </div>
+            <div class="mb-4">
+                <label class="text-muted small">Email</label>
+                <h5>{{ user.email|default:"Not specified" }}</h5>
+            </div>
+            <div class="mb-4">
+                <label class="text-muted small">Joined</label>
+                <h5>{{ user.date_joined|date:"F j, Y" }}</h5>
+            </div>
+            <div class="d-grid gap-2">
+                <a href="#" class="btn text-white"
+                   style="background:#6C63FF;">
+                    Edit Profile
+                </a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger w-100">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

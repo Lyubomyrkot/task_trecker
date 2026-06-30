@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold mb-0">Dashboard</h2>
@@ -10,7 +12,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h2 class="fw-bold mb-1" style="color:#6C63FF;">12</h2>
+                    <h2 class="fw-bold mb-1" style="color:#6C63FF;">{{ total_tasks }}</h2>
                     <p class="text-muted mb-0">Total Tasks</p>
                 </div>
             </div>
@@ -19,7 +21,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h2 class="fw-bold mb-1" style="color:#FF9800;">5</h2>
+                    <h2 class="fw-bold mb-1" style="color:#FF9800;">{{ in_progress }}</h2>
                     <p class="text-muted mb-0">In Progress</p>
                 </div>
             </div>
@@ -28,7 +30,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h2 class="fw-bold mb-1" style="color:#00C853;">6</h2>
+                    <h2 class="fw-bold mb-1" style="color:#00C853;">{{ completed }}</h2>
                     <p class="text-muted mb-0">Completed</p>
                 </div>
             </div>
@@ -37,7 +39,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h2 class="fw-bold mb-1" style="color:#FF1744;">1</h2>
+                    <h2 class="fw-bold mb-1" style="color:#FF1744;">{{ overdue }}</h2>
                     <p class="text-muted mb-0">Overdue</p>
                 </div>
             </div>
@@ -106,31 +108,50 @@
 
     <div class="col-lg-4 mb-4">
         <div class="card shadow-sm border-0 h-100">
+
             <div class="card-header bg-white">
                 <h5 class="mb-0 fw-bold">Priority Distribution</h5>
             </div>
+
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
 
-                <div class="rounded-circle border border-5"
-                     style="width:180px;height:180px;border-color:#6C63FF!important;">
+                <!-- chart -->
+                <canvas id="priorityChart" style="max-width:140px; max-height:140px;"></canvas>
+
+                <!-- legend -->
+                <div class="mt-3 w-100 text-start">
+
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2 text-danger">●</span> High
+                    </div>
+
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="me-2 text-success">●</span> Low
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <span class="me-2 text-warning">●</span> Medium
+                    </div>
+
                 </div>
-                <div class="mt-4 w-100">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>🔴 High</span>
-                        <strong>{{ high_tasks }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>🟡 Medium</span>
-                        <strong>{{ medium_tasks }}</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>🟢 Low</span>
-                        <strong>{{ low_tasks }}</strong>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const HIGH_TASKS = Number("{{ high_tasks|default:0 }}");
+    const MEDIUM_TASKS = Number("{{ medium_tasks|default:0 }}");
+    const LOW_TASKS = Number("{{ low_tasks|default:0 }}");
+</script>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
 
 {% endblock %}
