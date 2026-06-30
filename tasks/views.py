@@ -11,3 +11,8 @@ class DashboardView(ListView):
     model = Task
     template_name = 'dashboard.html'
     context_object_name = 'tasks'
+
+class TaskCreateView(ListView):
+    model = Task
+    template_name = 'create_tasks.html'
+    context_object_name = 'tasks'
