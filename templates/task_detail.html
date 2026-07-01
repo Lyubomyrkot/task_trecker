@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Task Detail</h2>
+        <a href="{% url 'task_list' %}" class="btn btn-outline-secondary">
+            ← Back to Tasks
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between">
+                <h2 class="fw-bold">
+                    {{ task.title }}
+                </h2>
+                {% if task.status == "pending" %}
+                    <span class="badge bg-secondary fs-6">Pending</span>
+                {% elif task.status == "in_progress" %}
+                    <span class="badge bg-warning text-dark fs-6">
+                        In Progress
+                    </span>
+                {% else %}
+                    <span class="badge bg-success fs-6">
+                        Completed
+                    </span>
+                {% endif %}
+            </div>
+            <div class="mt-4 d-flex gap-5">
+                <div>
+                    <small class="text-muted">
+                        Priority
+                    </small>
+                    <h6>{{ task.get_priority_display }}</h6>
+                </div>
+                <div>
+                    <small class="text-muted">
+                        Deadline
+                    </small>
+                    <h6>
+                        {% if task.deadline %}
+                            {{ task.deadline|date:"M d, Y" }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </h6>
+                </div>
+            </div>
+            <hr>
+            <p class="fs-5">
+                {{ task.description }}
+            </p>
+            <div class="mt-4">
+                <a href="#" class="btn text-white"
+                   style="background:#6C63FF;">
+                    Edit
+                </a>
+                <a href="#"
+                   class="btn btn-outline-danger ms-2">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5">
+        <h4 class="fw-bold mb-4">
+            Comments ({{ task.comments.count }})
+        </h4>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-4">
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Add a comment...">
+                <button class="btn text-white"
+                        style="background:#6C63FF;">
+                    Post
+                </button>
+            </div>
+        </form>
+        {% for comment in task.comments.all %}
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>
+                            {{ comment.author.username }}
+                        </strong>
+                        <small class="text-muted ms-2">
+                            {{ comment.created_at|date:"M d, Y H:i" }}
+                        </small>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0">
+                    {{ comment.content }}
+                </p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-light border">
+            No comments yet.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

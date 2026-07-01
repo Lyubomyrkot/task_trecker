@@ -73,12 +73,25 @@
                     </thead>
                     <tbody>
                     {% for task in tasks|slice:":5" %}
-                    <tr>
+                    <tr class="clickable-row"
+                        data-href="{% url 'task_detail' task.pk %}"
+                        style="cursor: pointer;">
+
                         <td>{{ task.title }}</td>
                         <td>
-                            <span class="badge bg-primary">
-                                {{ task.get_status_display }}
-                            </span>
+                            {% if task.status == "pending" %}
+                                <span class="badge bg-secondary">
+                                    {{ task.get_status_display }}
+                                </span>
+                            {% elif task.status == "in_progress" %}
+                                <span class="badge bg-primary">
+                                    {{ task.get_status_display }}
+                                </span>
+                            {% elif task.status == "completed" %}
+                                <span class="badge bg-success">
+                                    {{ task.get_status_display }}
+                                </span>
+                            {% endif %}
                         </td>
                         <td>
                             {% if task.priority == "high" %}
@@ -153,5 +166,13 @@
 </script>
 
 <script src="{% static 'js/dashboard.js' %}"></script>
+
+<script>
+document.querySelectorAll(".clickable-row").forEach(row => {
+    row.addEventListener("click", () => {
+        window.location = row.dataset.href;
+    });
+});
+</script>
 
 {% endblock %}

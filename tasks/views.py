@@ -1,6 +1,6 @@
 from .models import Task
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 from django.utils import timezone
 
 
@@ -39,6 +39,11 @@ class TaskCreateView(ListView):
     model = Task
     template_name = 'create_tasks.html'
     context_object_name = 'tasks'
+
+class TaskDetailView(DetailView):
+    model = Task
+    template_name = "task_detail.html"
+    context_object_name = "task"
 
 class ProfileView(ListView):
     model = Task
