@@ -1,6 +1,9 @@
+from auth_system.forms import TaskForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Task
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from django.utils import timezone
 
 
@@ -35,10 +38,16 @@ class DashboardView(ListView):
 
         return context
 
-class TaskCreateView(ListView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    template_name = 'create_tasks.html'
-    context_object_name = 'tasks'
+    form_class = TaskForm
+    template_name = "task_form.html"
+    success_url = reverse_lazy("task_list")
+    login_url = "login"
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class TaskDetailView(DetailView):
     model = Task
@@ -54,3 +63,17 @@ class ProfileView(ListView):
         if self.request.user.is_authenticated:
             return ["profile.html"]
         return ["guest_profile.html"]
+    
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "task_form.html"
+    success_url = reverse_lazy("task_list")
+    login_url = "login"
+
+
+class TaskDeleteView(DeleteView):
+    model = Task
+    template_name = "task_confirm_delete.html"
+    success_url = reverse_lazy("task_list")

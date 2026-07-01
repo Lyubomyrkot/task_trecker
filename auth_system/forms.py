@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-
+from tasks.models import Task
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(
@@ -49,3 +49,38 @@ class LoginForm(AuthenticationForm):
             "class": "form-control form-control-lg",
             "placeholder": "Enter your password"
         })
+
+
+
+
+class TaskForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ["title", "description", "status", "priority", "deadline"]
+
+        widgets = {
+            "title": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter task title"
+            }),
+
+            "description": forms.Textarea(attrs={
+                "class": "form-control",
+                "rows": 5,
+                "placeholder": "Describe the task..."
+            }),
+
+            "status": forms.Select(attrs={
+                "class": "form-select"
+            }),
+
+            "priority": forms.Select(attrs={
+                "class": "form-select"
+            }),
+
+            "deadline": forms.DateTimeInput(attrs={
+                "class": "form-control",
+                "type": "datetime-local"
+            }),
+        }

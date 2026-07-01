@@ -67,16 +67,16 @@
                     <td>{{ task.deadline|date:"d.m.Y" }}</td>
 
                     <td class="text-center">
-                         <a href="#"
+                         <a href="{% url 'task_edit' task.pk %}"
                             class="btn btn-sm btn-outline-primary"
                             onclick="event.stopPropagation();">
-                            Edit
+                                Edit
                         </a>
 
-                        <a href="#"
+                        <a href="{% url 'task_delete' task.pk %}"
                             class="btn btn-sm btn-outline-danger"
                             onclick="event.stopPropagation();">
-                            Delete
+                                Delete
                         </a>
 
                     </td>
