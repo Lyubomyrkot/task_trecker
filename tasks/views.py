@@ -7,10 +7,34 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 
 
+from django.db.models import Q
+
 class TaskListView(ListView):
     model = Task
-    template_name = 'task_list.html'
-    context_object_name = 'tasks'
+    template_name = "task_list.html"
+    context_object_name = "tasks"
+
+    def get_queryset(self):
+
+        queryset = Task.objects.all()
+
+        search = self.request.GET.get("search")
+        status = self.request.GET.get("status")
+        priority = self.request.GET.get("priority")
+
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) |
+                Q(description__icontains=search)
+            )
+
+        if status:
+            queryset = queryset.filter(status=status)
+
+        if priority:
+            queryset = queryset.filter(priority=priority)
+
+        return queryset
 
 class DashboardView(ListView):
     model = Task
